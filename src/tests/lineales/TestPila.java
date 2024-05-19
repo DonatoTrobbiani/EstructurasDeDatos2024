@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class TestPila {
     public static void main(String[] args) {
         testingPila();
+        comprobarCapicua();
     }
 
 
@@ -65,7 +66,7 @@ public class TestPila {
         System.out.println("Se vació la pila");
         pila.toString();
         System.out.println("Desapila en pila vacia, espera FALSE: " + pila.desapilar());
-        System.out.println("Obtien tope en pila vacia, espera NULL: " + pila.obtenerTope());
+        System.out.println("Obtiene tope en pila vacia, espera NULL: " + pila.obtenerTope());
 
         System.out.println("Verifica pila copia, espera [1, 2, 3, 4, 5, 6, 7, 2]: " + pila2.toString());
         System.out.println("Apila 5, espera TRUE y [1, 2, 3, 4, 5, 6, 7, 2, 5]: " + pila2.apilar(5));
@@ -84,5 +85,46 @@ public class TestPila {
         pila2.toString();
         pila2.vaciar();
         System.out.println("Vacia pila copia, espera pila vacia: " + pila2.toString());
+    }
+
+    public static void comprobarCapicua() {
+        System.out.println("COMPROBAR CAPICUA");
+        Pila pila = new Pila();
+        pila.apilar(1);
+        pila.apilar(2);
+        pila.apilar(3);
+        pila.apilar(4);
+        pila.apilar(5);
+        pila.apilar(4);
+        pila.apilar(3);
+        pila.apilar(2);
+        pila.apilar(1);
+        System.out.println("Pila: " + pila.toString());
+
+        System.out.println("La pila es capicua: "+esCapicua(pila));
+    }
+
+    public static boolean esCapicua(Pila pila) {
+        //Clono la pila original 2 veces para no tocar la original
+        Pila pilaAux = pila.clone();
+        Pila pilaClon = pila.clone();
+        Pila pilaAux2 = new Pila();
+        boolean comprueba = true;
+        
+        //Invierto una pila
+        while (!pilaClon.esVacia()) {
+            pilaAux2.apilar(pilaClon.obtenerTope());
+            pilaClon.desapilar();
+        }
+
+        //Voy comparando las pilas hasta encontrar una diferencia, si lo hace no es capicua
+        while (comprueba && !pilaAux.esVacia()) {
+            if (!pilaAux.obtenerTope().equals(pilaAux2.obtenerTope())) {
+                comprueba = false;
+            }
+            pilaAux.desapilar();
+            pilaAux2.desapilar();
+        }
+        return comprueba;
     }
 }

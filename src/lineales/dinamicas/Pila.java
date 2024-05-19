@@ -72,7 +72,7 @@ class Pila {
     }
         
     public String toString() {
-        String cadena = "";
+        String cadena = "[ ";
         if (this.tope != null) {
         Nodo aux = this.tope;    
         while (aux != null) {
@@ -80,6 +80,7 @@ class Pila {
             aux = aux.getEnlace();
             }
         }
+        cadena += "]";
         return cadena;
     }
 }

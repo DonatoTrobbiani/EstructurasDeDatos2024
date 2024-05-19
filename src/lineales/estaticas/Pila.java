@@ -79,10 +79,11 @@ public class Pila {
 
     //Muestra la pila
     public String toString() {
-        String cadena = "";
+        String cadena = "[ ";
         for (int i = 0; i <= this.tope; i++) {
             cadena += this.pila[i] + " ";
         }
+        cadena += "]";
         return cadena;
     }
 }
