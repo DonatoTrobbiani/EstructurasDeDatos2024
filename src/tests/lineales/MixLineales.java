@@ -24,11 +24,11 @@ public class MixLineales {
         Cola colaInvertida = new Cola();
         
         while(!cola.esVacia()) {
+            Object elem = cola.obtenerFrente();
+            if(elem != "$") {
             
-            if(cola.obtenerFrente() != "$") {
-            
-                pilaAux.apilar(cola.obtenerFrente());
-                colaInvertida.poner(cola.obtenerFrente());
+                pilaAux.apilar(elem);
+                colaInvertida.poner(elem);
                 cola.sacar();
             
             } else {
@@ -38,7 +38,7 @@ public class MixLineales {
                     pilaAux.desapilar();
 
                 }
-                colaInvertida.poner(cola.obtenerFrente());
+                colaInvertida.poner(elem);
                 cola.sacar();  
             }
         }
