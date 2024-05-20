@@ -1,6 +1,6 @@
 package lineales.dinamicas;
 
-class Pila {
+public class Pila {
     private Nodo tope;
 
     public Pila() {
