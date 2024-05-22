@@ -128,4 +128,33 @@ public class Lista {
         cadena += "]";
         return cadena;
     }
+
+    public void invertir() {
+        Nodo anterior = null;
+        Nodo actual = this.cabecera;
+        while (actual != null) {
+            Nodo siguiente = actual.getEnlace();
+            actual.setEnlace(anterior);
+            anterior = actual;
+            actual = siguiente;
+        }
+        this.cabecera = anterior;
+    }
+
+    public void eliminarApariciones(Object x) {
+        Nodo aux = this.cabecera;
+        Nodo ant = null;
+        while (aux != null) {
+            if (aux.getElem().equals(x)) {
+                if (ant == null) {
+                    this.cabecera = aux.getEnlace();
+                } else {
+                    ant.setEnlace(aux.getEnlace());
+                }
+            } else {
+                ant = aux;
+            }
+            aux = aux.getEnlace();
+        }
+    }
 }
