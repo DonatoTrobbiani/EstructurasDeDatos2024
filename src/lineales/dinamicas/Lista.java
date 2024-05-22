@@ -7,7 +7,7 @@ public class Lista {
         this.cabecera = null;
     }
 
-    public boolean instertar(Object elem, int pos) {
+    public boolean insertar(Object elem, int pos) {
         //Inserta el elemento nuevo en la posición pos
         //Detecta y reporta error de posición inválida
         boolean exito = true;
