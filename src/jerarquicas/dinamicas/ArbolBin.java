@@ -66,7 +66,7 @@ public class ArbolBin {
             this.raiz = new NodoArbol(elemNuevo, null, null);
         } else {
             //Si el arbol no está vacío, busca el padre
-            NodoArbol nodoPadre = obtenerNodoPorPosicion(this.raiz, posPadre);
+            NodoArbol nodoPadre = obtenerPosicion(this.raiz, posPadre);
 
             //Si padre existe y lugar no está ocupado lo pone, sino da error
             if (nodoPadre != null) {
@@ -84,16 +84,16 @@ public class ArbolBin {
         return exito;
     }
 
-    private NodoArbol obtenerNodoPorPosicion(NodoArbol nodo, int pos) {
+    private NodoArbol obtenerPosicion(NodoArbol nodo, int pos) {
         //Metodo PRIVADO que busca un nodo por su posicion en preorden
         NodoArbol resultado = null;
         if (nodo != null) {
             if (pos == 1) {
                 resultado = nodo;
             } else {
-                resultado = obtenerNodoPorPosicion(nodo.getIzquierdo(), pos - 1);
+                resultado = obtenerPosicion(nodo.getIzquierdo(), pos - 1);
                 if (resultado == null) {
-                    resultado = obtenerNodoPorPosicion(nodo.getDerecho(), pos - 1);
+                    resultado = obtenerPosicion(nodo.getDerecho(), pos - 1);
                 }
             }
         }
@@ -174,7 +174,7 @@ public class ArbolBin {
                 if (nodoActual.getIzquierdo() != null) {
                     cola.poner(nodoActual.getIzquierdo());
                 }
-                if (nodo.getDerecho() != null) {
+                if (nodoActual.getDerecho() != null) {
                     cola.poner(nodoActual.getDerecho());
                 }
             }
@@ -236,7 +236,13 @@ public class ArbolBin {
     private Object padreAux(NodoArbol nodo, Object elem) {
         Object resultado = null;
         if (nodo != null) {
-            if (nodo.getIzquierdo().getElem().equals(elem) || nodo.getDerecho().getElem().equals(elem)) {
+            boolean encontrado = false;
+            if (nodo.getIzquierdo() != null && nodo.getIzquierdo().getElem().equals(elem)) {
+                encontrado = true;
+            } else if (nodo.getDerecho() != null && nodo.getDerecho().getElem().equals(elem)) {
+                encontrado = true;
+            }
+            if (encontrado) {
                 resultado = nodo.getElem();
             } else {
                 resultado = padreAux(nodo.getIzquierdo(), elem);
@@ -281,5 +287,67 @@ public class ArbolBin {
             resultado += toStringAux(nodo.getDerecho());
         }
         return resultado;
+    }
+
+    public Lista frontera() {
+        //Retorna una lista con los elementos de la frontera del arbol
+        Lista lista = new Lista();
+        fronteraAux(this.raiz, lista);
+        return lista;
+    }
+
+    private void fronteraAux(NodoArbol nodo, Lista lista) {
+        //Metodo PRIVADO recursivo porque su parametro es de tipo NodoArbol
+        if (nodo != null) {
+            if (nodo.getIzquierdo() == null && nodo.getDerecho() == null) {
+                lista.insertar(nodo.getElem(), lista.longitud() + 1);
+            } else {
+                fronteraAux(nodo.getIzquierdo(), lista);
+                fronteraAux(nodo.getDerecho(), lista);
+            }
+        }
+    }
+
+    public Lista obtenerAncestros(Object elem) {
+        //Retorna una lista con los ancestros de un elemento
+        Lista lista = new Lista();
+        obtenerAncestrosAux(this.raiz, elem, lista);
+        return lista;
+    }
+
+    private boolean obtenerAncestrosAux(NodoArbol nodo, Object elem, Lista lista) {
+        //Metodo PRIVADO recursivo porque su parametro es de tipo NodoArbol
+        boolean encontrado = false;
+        if (nodo != null) {
+            if (nodo.getElem().equals(elem)) {
+                encontrado = true;
+            } else {
+                if (obtenerAncestrosAux(nodo.getIzquierdo(), elem, lista) || obtenerAncestrosAux(nodo.getDerecho(), elem, lista)) {
+                    lista.insertar(nodo.getElem(), lista.longitud() + 1);
+                    encontrado = true;
+                }
+            }
+        }
+        return encontrado;
+    }
+
+    public Lista obtenerDescendientes(Object elem) {
+        //Retorna una lista con los descendientes de un elemento
+        Lista lista = new Lista();
+        obtenerDescendientesAux(this.raiz, elem, lista);
+        return lista;
+    }
+
+    private void obtenerDescendientesAux(NodoArbol nodo, Object elem, Lista lista) {
+        //Metodo PRIVADO recursivo porque su parametro es de tipo NodoArbol
+        if (nodo != null) {
+            if (nodo.getElem().equals(elem)) {
+                listarPreordenAux(nodo.getIzquierdo(), lista);
+                listarPreordenAux(nodo.getDerecho(), lista);
+            } else {
+                obtenerDescendientesAux(nodo.getIzquierdo(), elem, lista);
+                obtenerDescendientesAux(nodo.getDerecho(), elem, lista);
+            }
+        }
     }
 }
