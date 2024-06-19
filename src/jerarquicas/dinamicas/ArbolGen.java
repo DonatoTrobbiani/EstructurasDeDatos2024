@@ -320,4 +320,86 @@ public class ArbolGen {
         }
         return cadena;
     }
+
+    public boolean verificarCamino(Lista lista){
+        boolean exito = false;
+        exito = verificarCaminoAux(lista, this.raiz, 1);
+        return exito;
+    }
+
+    private boolean verificarCaminoAux(Lista lista, NodoGen nodo, int posElemActual){
+        boolean exito = false;
+        if (nodo != null) {
+            NodoGen aux = nodo;
+            while (aux != null && !exito) {
+                if (aux.getElem().equals(lista.recuperar(posElemActual))) {
+                    if (lista.longitud() == posElemActual) {
+                        exito = true;
+                    }else{
+                        exito = verificarCaminoAux(lista, aux.getHijoIzquierdo(), posElemActual+1);
+                    }
+                }
+                aux = aux.getHermanoDerecho();
+            }
+        }
+        return exito;
+    }
+
+    public Lista listarEntreNiveles(int niv1, int niv2) {
+        Lista lista = new Lista();
+        listarEntreNivelesAux(this.raiz, lista, niv1, niv2, 0);
+        return lista;
+    }
+
+    private void listarEntreNivelesAux(NodoGen nodo, Lista lista, int niv1, int niv2, int nivel) {
+        if (nodo != null && nivel <= niv2) {
+            if (nivel >= niv1 && nivel <= niv2) {
+                lista.insertar(nodo.getElem(), lista.longitud() + 1);
+            }
+            NodoGen hijo = nodo.getHijoIzquierdo();
+            while (hijo != null) {
+                listarEntreNivelesAux(hijo, lista, niv1, niv2, nivel + 1);
+                hijo = hijo.getHermanoDerecho();
+            }
+        }
+    }
+
+    public boolean eliminarDescendientes(Object elem) {
+        boolean exito = false;
+        if (this.raiz != null) {
+            if (this.raiz.getElem().equals(elem)) {
+                this.raiz = null;
+                exito = true;
+            } else {
+                exito = eliminarDescendientesAux(this.raiz, null, elem);
+            }
+        }
+        return exito;
+    }
+
+    private boolean eliminarDescendientesAux(NodoGen nodo, NodoGen anterior, Object elem) {
+        boolean exito = false;
+        if (nodo != null) {
+            if (nodo.getElem().equals(elem)) {
+                if(anterior.getHermanoDerecho().equals(nodo)) {
+                    anterior.setHermanoDerecho(nodo.getHermanoDerecho());
+                    exito = true;
+                } else {
+                    anterior.setHijoIzquierdo(nodo.getHermanoDerecho());
+                    exito = true;
+                }
+            } else {
+                anterior = nodo;
+                NodoGen hijo = nodo.getHijoIzquierdo();
+                while (hijo != null) {
+                    if (eliminarDescendientesAux(hijo, anterior, elem)) {
+                        hijo = null;
+                    } else {
+                        hijo = hijo.getHermanoDerecho();
+                    }
+                }
+            }
+        }
+        return exito;
+    }
 }

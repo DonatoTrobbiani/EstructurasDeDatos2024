@@ -31,8 +31,8 @@ public class TestArbolBin {
         System.out.println("PROBANDO insertarPorPosicion/*");
         System.out.println("Inserta H como hijo izquierdo de D(3), espera TRUE: " + arbolBin.insertarPorPosicion('H', 3, 'I'));
         System.out.println("Inserta I como hijo derecho de D(3), espera TRUE: " + arbolBin.insertarPorPosicion('I', 3, 'D'));
-        System.out.println("Inserta J como hijo izquierdo de E(4), espera TRUE: " + arbolBin.insertarPorPosicion('J', 4, 'I'));
-        System.out.println("Inserta K como hijo derecho de E(4), espera TRUE: " + arbolBin.insertarPorPosicion('K', 4, 'D'));
+        System.out.println("Inserta J como hijo izquierdo de E(6), espera TRUE: " + arbolBin.insertarPorPosicion('J', 6, 'I'));
+        System.out.println("Inserta K como hijo derecho de E(6), espera TRUE: " + arbolBin.insertarPorPosicion('K', 6, 'D'));
         System.out.println(arbolBin.toString());
 
         System.out.println("Inserta X como hijo izquierdo de D(3), espera FALSE: " + arbolBin.insertarPorPosicion('X', 3, 'I'));
