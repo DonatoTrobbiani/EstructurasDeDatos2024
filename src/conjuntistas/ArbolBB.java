@@ -293,4 +293,21 @@ public class ArbolBB {
         }
         return ret;
     }
+
+    public boolean eliminarMinimoSubarbol(Comparable elem) {
+        boolean exito = false;
+        if (this.raiz != null) {
+            // El arbol no está vacío.
+            if (this.raiz.getElem().compareTo(elem) == 0) {
+                // El elemento a eliminar es la raíz.
+                this.raiz = null;
+                exito = true;
+            } else {
+                NodoABB subArbol = buscarSubarbol(this.raiz, elem);
+                eliminarMinimoAux(subArbol, null);
+                exito = true;
+            }
+        }
+        return exito;
+    }
 }

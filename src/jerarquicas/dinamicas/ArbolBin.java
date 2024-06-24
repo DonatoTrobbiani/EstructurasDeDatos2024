@@ -66,7 +66,8 @@ public class ArbolBin {
             this.raiz = new NodoArbol(elemNuevo, null, null);
         } else {
             //Si el arbol no está vacío, busca el padre
-            NodoArbol nodoPadre = obtenerPosicion(this.raiz, posPadre);
+            int[] posPadreAux = {posPadre-1};
+            NodoArbol nodoPadre = obtenerPosicion(this.raiz, posPadreAux);
 
             //Si padre existe y lugar no está ocupado lo pone, sino da error
             if (nodoPadre != null) {
@@ -84,16 +85,17 @@ public class ArbolBin {
         return exito;
     }
 
-    private NodoArbol obtenerPosicion(NodoArbol nodo, int pos) {
+    private NodoArbol obtenerPosicion(NodoArbol nodo, int[] pos) {
         //Metodo PRIVADO que busca un nodo por su posicion en preorden
         NodoArbol resultado = null;
-        if (nodo != null) {
-            if (pos == 1) {
+        if (nodo != null && pos[0] >= 0) {
+            if (pos[0] == 0) {
                 resultado = nodo;
             } else {
-                resultado = obtenerPosicion(nodo.getIzquierdo(), pos - 1);
+                pos[0]--;
+                resultado = obtenerPosicion(nodo.getIzquierdo(), pos);
                 if (resultado == null) {
-                    resultado = obtenerPosicion(nodo.getDerecho(), pos - 1);
+                    resultado = obtenerPosicion(nodo.getDerecho(), pos);
                 }
             }
         }
@@ -349,5 +351,59 @@ public class ArbolBin {
                 obtenerDescendientesAux(nodo.getDerecho(), elem, lista);
             }
         }
+    }
+
+    public boolean verificarPatron(Lista patron) {
+        int pos = 1;
+        return verificarPatronAux(this.raiz, patron, pos, patron.longitud());
+    }
+
+    private boolean verificarPatronAux(NodoArbol nodo, Lista lista, int pos, int longitud) {
+        boolean resultado = false;
+        if (nodo != null) {
+            if (nodo.getElem().equals(lista.recuperar(pos))) {
+                if(pos == longitud) {
+                    resultado = true;
+                } else {
+                    pos++;
+                    resultado = verificarPatronAux(nodo.getIzquierdo(), lista, pos, longitud);
+                    if (!resultado) {
+                        resultado = verificarPatronAux(nodo.getDerecho(), lista, pos, longitud);
+                    }
+                    if(!resultado) {
+                        pos--;
+                    }
+                }
+            }
+        }
+        return resultado;
+    }
+
+    public ArbolBin clonarInvertido() {
+        ArbolBin clon = new ArbolBin();
+        clon.raiz = clonarInvertidoAux(this.raiz);
+        return clon;
+    }
+
+    private NodoArbol clonarInvertidoAux(NodoArbol nodo) {
+        NodoArbol clon = null;
+        if (nodo != null) {
+            clon = new NodoArbol(nodo.getElem(), clonarInvertidoAux(nodo.getDerecho()), clonarInvertidoAux(nodo.getIzquierdo()));
+        }
+        return clon;
+    }
+
+    public boolean equals(ArbolBin otro) {
+        return equalsAux(this.raiz, otro.raiz);
+    }
+
+    private boolean equalsAux(NodoArbol nodo1, NodoArbol nodo2) {
+        boolean resultado = false;
+        if(nodo1 == null && nodo2 == null) {
+            resultado = true;
+        } else if (nodo1 != null && nodo2 != null) {
+            resultado = nodo1.getElem().equals(nodo2.getElem()) && equalsAux(nodo1.getIzquierdo(), nodo2.getIzquierdo()) && equalsAux(nodo1.getDerecho(), nodo2.getDerecho());
+        }
+        return resultado;
     }
 }

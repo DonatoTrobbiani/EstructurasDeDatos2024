@@ -157,4 +157,40 @@ public class Lista {
             aux = aux.getEnlace();
         }
     }
+
+    public Lista obtenerMultiplos(int num) {
+        Lista lista = new Lista();
+        if (num > 0) {
+            Nodo aux = this.cabecera.getEnlace().getEnlace().getEnlace();
+            while (aux != null) {
+                lista.insertar(aux.getElem(), lista.longitud() + 1);
+                aux = aux.getEnlace().getEnlace().getEnlace();
+            }
+        }
+        return lista;
+    }
+
+    public void agregarElemento(Object nuevo, int x) {
+        if (x > 0) {
+            
+            Nodo nodoNuevo = new Nodo(nuevo, null);
+            Nodo aux = this.cabecera;
+
+            nodoNuevo.setEnlace(aux.getEnlace());
+            aux.setEnlace(nodoNuevo);
+
+            int contador = 1;
+            while (aux != null) {
+                nodoNuevo = new Nodo(nuevo, null);
+                if(contador % x == 0) {
+                    nodoNuevo.setEnlace(aux.getEnlace());
+                    aux.setEnlace(nodoNuevo);
+                    aux = nodoNuevo.getEnlace();
+                } else {
+                    aux = aux.getEnlace();
+                }
+                contador++;
+            }
+        }
+    }
 }

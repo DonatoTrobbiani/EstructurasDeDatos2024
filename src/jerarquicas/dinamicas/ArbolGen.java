@@ -402,4 +402,28 @@ public class ArbolGen {
         }
         return exito;
     }
+
+    public int orden() {
+        return ordenAux(this.raiz);
+    }
+
+    private int ordenAux(NodoGen nodo) {
+        int orden = 0;
+        if (nodo != null) {
+            NodoGen hijo = nodo.getHijoIzquierdo();
+            
+            while (hijo != null) {
+                orden++;
+                hijo = hijo.getHermanoDerecho();
+            }
+            
+            hijo = nodo.getHijoIzquierdo();
+            while (hijo != null) {
+                int gradoHijo = ordenAux(hijo);
+                orden = Math.max(orden, gradoHijo);
+                hijo = hijo.getHermanoDerecho();
+            }
+        }
+        return orden;
+    }
 }

@@ -46,6 +46,10 @@ public class TestLista {
 
         System.out.println("Verifica lista clon, espera [7, 1, 2, 1, 3, 4, 5]: " + listaClon.toString());
 
+        System.out.println("OBTENER MULTIPLOS DE 3");
+        System.out.println(listaClon.obtenerMultiplos(3).toString());
+
+
         listaClon.vaciar();
         System.out.println("Vacia lista clon, espera lista vacía: " + listaClon.toString());
 
