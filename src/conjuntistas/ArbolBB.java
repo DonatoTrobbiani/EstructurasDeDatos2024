@@ -296,18 +296,148 @@ public class ArbolBB {
 
     public boolean eliminarMinimoSubarbol(Comparable elem) {
         boolean exito = false;
-        if (this.raiz != null) {
-            // El arbol no está vacío.
-            if (this.raiz.getElem().compareTo(elem) == 0) {
-                // El elemento a eliminar es la raíz.
-                this.raiz = null;
+        boolean comprueba = false;
+        NodoABB padre;
+        if (this.raiz.getElem().equals(elem)) {
+            comprueba = true;
+            padre = null;
+        } else {
+            padre = buscarPadre(this.raiz, elem);
+            if (padre != null) {
+                comprueba = true;
+            }
+        }
+        if (comprueba) {
+            NodoABB subArbol;
+            if (padre.getIzquierdo().getElem().compareTo(elem) == 0) {
+                subArbol = padre.getIzquierdo();
+            } else {
+                subArbol = padre.getDerecho();
+            }
+            if (subArbol.getIzquierdo() != null) {
+                eliminarMinimoAux(subArbol, padre);
                 exito = true;
             } else {
-                NodoABB subArbol = buscarSubarbol(this.raiz, elem);
-                eliminarMinimoAux(subArbol, null);
-                exito = true;
+                if (padre != null) {
+                    padre.setDerecho(subArbol.getDerecho());
+                    exito = true;
+                } else {
+                    this.raiz = subArbol.getDerecho();
+                    exito = true;
+                }
+            
             }
         }
         return exito;
+    }
+
+    private NodoABB buscarPadre(NodoABB nodo, Comparable elem) {
+        NodoABB padre = null;
+        if (nodo != null) {
+            Comparable x = nodo.getElem();
+            if (elem.compareTo(x) < 0) {
+                if (nodo.getIzquierdo().getElem().compareTo(elem) == 0) {
+                    padre = nodo;
+                } else {
+                    padre = buscarPadre(nodo.getIzquierdo(), elem);
+                }
+            } else if (elem.compareTo(x) > 0) {
+                if (nodo.getDerecho().getElem().compareTo(elem) == 0) {
+                    padre = nodo;
+                } else {
+                    padre = buscarPadre(nodo.getDerecho(), elem);
+                }
+            }
+        }
+        return padre;
+    }
+
+    public int diferenciaCandidatos(Comparable elem) {
+        NodoABB nodo = buscarSubarbol(this.raiz, elem);
+        int respuesta = -1;
+        if (nodo != null) {
+            if (nodo.getIzquierdo() == null || nodo.getDerecho() == null) {
+                respuesta = -2;
+            } else {
+                NodoABB izq = nodo.getIzquierdo();
+                NodoABB der = nodo.getDerecho();
+                while (izq.getDerecho() != null) {
+                    izq = izq.getDerecho();
+                }
+                while (der.getIzquierdo() != null) {
+                    der = der.getIzquierdo();
+                }
+                respuesta = (int) der.getElem() - (int) izq.getElem();
+            }
+        }
+        return respuesta;
+    }
+
+    public int amplitudSubarbol(Comparable elem) {
+        NodoABB nodo = buscarSubarbol(this.raiz, elem);
+        int respuesta = -1;
+        if(nodo != null) {
+            NodoABB izq = nodo.getIzquierdo();
+            NodoABB der = nodo.getDerecho();
+            if(izq == null && der == null) {
+                respuesta = 0;
+            } else {
+                if (izq == null) {
+                    while (der.getIzquierdo() != null) {
+                        der = der.getIzquierdo();
+                    }
+                    respuesta = (int) der.getElem() - (int) nodo.getElem();
+                } else if (der == null) {
+                    while (izq.getDerecho() != null) {
+                        izq = izq.getDerecho();
+                    }
+                    respuesta = (int) nodo.getElem() - (int) izq.getElem(); 
+                } else {    
+                    while (izq.getDerecho() != null) {
+                        izq = izq.getDerecho();
+                    }
+                    while (der.getIzquierdo() != null) {
+                        der = der.getIzquierdo();
+                    }
+                    respuesta = (int) der.getElem() - (int) izq.getElem();
+                }
+            }
+        }
+        return respuesta;
+    }
+
+    public int mejorCandidato(Comparable elem) {
+        NodoABB nodo = buscarSubarbol(this.raiz, elem);
+        int respuesta = 0;
+        if (nodo != null) {
+            NodoABB izq = nodo.getIzquierdo();
+            NodoABB der = nodo.getDerecho();
+            if (izq == null && der == null) {
+                respuesta = -1;
+            } else if (izq == null) {
+                while (der.getIzquierdo() != null) {
+                    der = der.getIzquierdo();
+                }
+                respuesta = (int) der.getElem();
+            } else if (der == null) {
+                while (izq.getDerecho() != null) {
+                    izq = izq.getDerecho();
+                }
+                respuesta = (int) izq.getElem();
+            } else {
+                while (izq.getDerecho() != null) {
+                    izq = izq.getDerecho();
+                }
+                while (der.getIzquierdo() != null) {
+                    der = der.getIzquierdo();
+                }
+                if ((int) der.getElem() - (int) nodo.getElem() < (int) nodo.getElem() - (int) izq.getElem()) {
+                    respuesta = (int) der.getElem();
+                } else {
+                    respuesta = (int) izq.getElem();
+                }
+            }
+        }
+        return respuesta;
     }
 }
