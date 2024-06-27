@@ -193,4 +193,26 @@ public class Lista {
             }
         }
     }
+
+    public boolean moverAAnteultimaPosesion(int pos) {
+        boolean exito = false;
+        if (pos < longitud()) {
+            Nodo aux = this.cabecera;
+            Nodo ant = null;
+            while (pos > 1) {
+                ant = aux;
+                aux.getEnlace();
+                pos--;
+            }
+            ant.setEnlace(aux.getEnlace());
+            while (ant.getEnlace() != null) {
+                ant = ant.getEnlace();
+            }
+            ant.setEnlace(aux);
+            exito = true;
+        } else if (pos == longitud()) {
+            exito = true;
+        }
+        return exito;
+    }
 }
