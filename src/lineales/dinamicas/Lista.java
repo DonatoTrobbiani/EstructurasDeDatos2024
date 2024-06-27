@@ -176,8 +176,8 @@ public class Lista {
             Nodo nodoNuevo = new Nodo(nuevo, null);
             Nodo aux = this.cabecera;
 
-            nodoNuevo.setEnlace(aux.getEnlace());
-            aux.setEnlace(nodoNuevo);
+            nodoNuevo.setEnlace(aux);
+            this.cabecera = nodoNuevo;
 
             int contador = 1;
             while (aux != null) {

@@ -42,6 +42,7 @@ public class TestGenerales {
         arbolBB.insertar(78);
         arbolBB.insertar(100);
 
+        System.out.println(arbolBB.listarMayoresQue(13, 13).toString());
 
         lista.insertar(20, 1);
         lista.insertar(54, 2);

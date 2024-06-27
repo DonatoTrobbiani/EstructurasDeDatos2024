@@ -41,10 +41,9 @@ public class ArbolGen {
             if (nodo.getElem().equals(buscado)) {
                 resultado = nodo;
             } else {
-                NodoGen hijo = nodo.getHijoIzquierdo();
-                while (hijo != null && resultado == null) {
-                    resultado = obtenerNodo(hijo, buscado);
-                    hijo = hijo.getHermanoDerecho();
+                resultado = obtenerNodo(nodo.getHijoIzquierdo(), buscado);
+                if (resultado == null) {
+                    resultado = obtenerNodo(nodo.getHermanoDerecho(), buscado);
                 }
             }
         }
@@ -425,5 +424,51 @@ public class ArbolGen {
             }
         }
         return orden;
+    }
+
+    public void insertarEnPosicion(Object elem, NodoGen padre, int pos) {
+        NodoGen nodo = obtenerNodo(this.raiz, padre.getElem());
+        if (nodo != null) {
+            insertarEnPosicionAux(nodo, elem, pos);
+        }
+    }
+
+    private void insertarEnPosicionAux(NodoGen nodo, Object elemNuevo, int pos) {
+        if (pos == 1) {
+            NodoGen nuevo = new NodoGen(elemNuevo, null, nodo.getHijoIzquierdo());
+            nodo.setHijoIzquierdo(nuevo);
+        } else {
+            nodo = nodo.getHijoIzquierdo();
+            while (nodo.getHermanoDerecho() != null && pos > 1) {
+                nodo = nodo.getHermanoDerecho();
+                pos--;
+            }
+            if (pos == 1) {
+                NodoGen nuevo = new NodoGen(elemNuevo, null, nodo.getHermanoDerecho());
+                nodo.setHermanoDerecho(nuevo);
+            } else {
+                NodoGen nuevo = new NodoGen(elemNuevo, null, null);
+                nodo.setHermanoDerecho(nuevo);
+            }
+        }
+    }
+
+    public boolean esSobrino(Object elem, Object tio) {
+        boolean exito = false;
+        NodoGen nodo = obtenerNodo(this.raiz, tio);
+        if (nodo != null) {
+            while (nodo != null && !exito){
+                nodo = nodo.getHermanoDerecho();
+                NodoGen hijo = nodo.getHijoIzquierdo();
+                while (hijo != null && !exito) {
+                    if (hijo.getElem().equals(elem)) {
+                        exito = true;
+                    }
+                    hijo = hijo.getHermanoDerecho();
+                }
+                nodo = nodo.getHermanoDerecho();
+            }
+        }
+        return exito;
     }
 }

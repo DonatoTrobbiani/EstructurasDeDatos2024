@@ -440,4 +440,50 @@ public class ArbolBB {
         }
         return respuesta;
     }
+
+    public Lista listarMayoresQue(int valor, Comparable elem) {
+        Lista lista = new Lista();
+        listarMayoresQueAux(buscarSubarbol(this.raiz, elem), lista, valor);
+        return lista;
+    }
+
+    private void listarMayoresQueAux(NodoABB nodo, Lista lista, int valor) {
+        if (nodo != null) {
+            if ((int) nodo.getElem() > valor) {
+                listarMayoresQueAux(nodo.getIzquierdo(), lista, valor);
+                lista.insertar(nodo.getElem(), lista.longitud() + 1);
+            }
+            listarMayoresQueAux(nodo.getDerecho(), lista, valor);
+        }
+    }
+
+    public Lista listarPreorden() {
+        Lista lista = new Lista();
+        listarPreordenAux(this.raiz, lista);
+        return lista;
+    }
+
+    private void listarPreordenAux(NodoABB nodo, Lista lista) {
+        if(nodo != null) {
+            lista.insertar(nodo.getElem(), lista.longitud() + 1);
+            listarPreordenAux(nodo.getIzquierdo(), lista);
+            listarPreordenAux(nodo.getDerecho(), lista);
+        }
+    }
+
+    public boolean eliminarElemAnterior(Comparable elem) {
+        boolean exito = false;
+        NodoABB nodo = buscarSubarbol(this.raiz, elem);
+        if (nodo != null) {
+            NodoABB hijo = nodo.getIzquierdo();
+            if (hijo != null) {
+                while (hijo.getDerecho() != null) {
+                    nodo = hijo;
+                    hijo = hijo.getDerecho();
+                }
+                nodo.setDerecho(hijo.getIzquierdo());
+            }
+        }
+        return exito;
+    }
 }
