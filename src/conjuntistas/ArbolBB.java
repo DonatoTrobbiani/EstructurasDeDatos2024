@@ -486,4 +486,45 @@ public class ArbolBB {
         }
         return exito;
     }
+
+    public Comparable mejorCandidato(Object elem) {
+        NodoABB nodo = buscarSubarbol(this.raiz, (Comparable) elem);
+        Comparable valor = -1;
+        if (nodo != null) {
+            valor = mejorCandidatoAux(nodo);
+        }
+        return valor;
+    }
+
+    private Comparable mejorCandidatoAux(NodoABB nodo) {
+        NodoABB HI = nodo.getIzquierdo();
+        NodoABB HD = nodo.getDerecho();
+        Comparable valor = -1;
+        if (HI != null && HD != null) {
+            while (HI.getDerecho() != null) {
+                HI = HI.getDerecho();
+            }
+            while (HD.getIzquierdo() != null) {
+                HD = HD.getIzquierdo();
+            }
+            if (((int) nodo.getElem() - (int) HI.getElem()) > ((int) HD.getElem() - (int) nodo.getElem())) {
+                valor = HI.getElem();
+            } else {
+                valor = HD.getElem();
+            }
+        } else if ((HI == null && HD != null) || (HI != null && HD == null)) {
+            if (HI == null) {
+                while (HD.getIzquierdo() != null) {
+                    HD = HD.getIzquierdo();
+                }
+                valor = HD.getElem();
+            } else {
+                while (HI.getDerecho() != null) {
+                    HI = HI.getDerecho();
+                }
+                valor = HI.getElem();
+            }
+        }
+        return valor;
+    }
 }

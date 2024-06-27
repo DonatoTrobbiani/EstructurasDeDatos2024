@@ -471,4 +471,41 @@ public class ArbolGen {
         }
         return exito;
     }
+
+    public boolean jerarquizar(Object elem) {
+        boolean exito = false;
+        exito = jerarquizarAux(elem, this.raiz, null);
+        return exito;
+    }
+
+    private boolean jerarquizarAux(Object elem, NodoGen nodo, NodoGen padre) {
+        boolean exito = false;
+        if (nodo != null) {
+            if (nodo.getElem().equals(elem)) {
+                if (!(padre == this.raiz || padre == null)) {
+                    if (padre.getHijoIzquierdo().equals(nodo)) {
+                        padre.setHijoIzquierdo(nodo.getHermanoDerecho());
+                        nodo.setHermanoDerecho(padre.getHermanoDerecho());
+                        padre.setHermanoDerecho(nodo);
+                    } else {
+                        NodoGen aux = padre.getHijoIzquierdo();
+                        while (aux.getHermanoDerecho() != nodo) {
+                            aux = aux.getHermanoDerecho();
+                        }
+                        aux.setHermanoDerecho(nodo.getHermanoDerecho());
+                        nodo.setHermanoDerecho(padre.getHermanoDerecho());
+                        padre.setHermanoDerecho(nodo);
+                    }
+                    exito = true;
+                }
+            } else {
+                NodoGen hijo = nodo.getHijoIzquierdo();
+                while (hijo != null && !exito) {
+                    exito = jerarquizarAux(elem, hijo, nodo);
+                    hijo = hijo.getHermanoDerecho();
+                }
+            }   
+        }
+        return exito;
+    }
 }
