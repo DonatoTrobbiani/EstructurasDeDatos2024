@@ -406,4 +406,24 @@ public class ArbolBin {
         }
         return resultado;
     }
+
+    public boolean estaRepetido(Object elem) {
+        int[] contador = {0};
+        estaRepetidoAux(elem, this.raiz, contador);
+        return contador[0] >= 2;
+    }
+
+    private void estaRepetidoAux(Object elem, NodoArbol nodo, int[] contador) {
+        if (nodo != null) {
+            if (nodo.getElem().equals(elem)) {
+                contador[0]++;
+            }
+            if (contador[0] < 2) {
+                estaRepetidoAux(elem, nodo.getIzquierdo(), contador);
+                if (contador[0] < 2) {    
+                    estaRepetidoAux(elem, nodo.getDerecho(), contador);
+                }
+            }
+        }
+    }
 }

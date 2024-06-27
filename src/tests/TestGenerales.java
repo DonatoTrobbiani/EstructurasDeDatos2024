@@ -49,6 +49,9 @@ public class TestGenerales {
         lista.insertar(27, 3);
         lista.insertar(17, 4);
 
+        System.out.println(lista.moverAAnteultimaPosesion(2));
+        System.out.println(lista.toString());
+
         arbolBinario.insertar(1, 0, 'I');
         arbolBinario.insertar(2, 1, 'I');
         arbolBinario.insertar(3, 1, 'D');
