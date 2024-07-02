@@ -3,7 +3,21 @@ import lineales.dinamicas.*;
 
 public class TestLineales {
     public static void main(String[] args) {
+        Cola cola = new Cola();
         
+        cola.poner(0);
+        cola.poner(1);
+        cola.poner(2);
+        cola.poner(3);
+        cola.poner(4);
+        cola.poner(5);
+        cola.poner(6);
+        cola.poner(7);
+        cola.poner(8);
+        cola.poner(9);
+
+        System.out.println(cola.toString());
+        System.out.println(generarSecuencia(cola, 4).toString());
     }
 
     public static Lista invertirVocalesDuplicarSiVocales(Cola q) {
@@ -49,6 +63,38 @@ public class TestLineales {
                 cola.vaciar();
                 lista.insertar('#', pos);
                 pos++;
+            }
+        }
+        return lista;
+    }
+
+    public static Lista generarSecuencia(Cola q, int t) {
+        Cola aux = q.clone();
+        Lista lista = new Lista();
+        
+        Cola cola = new Cola();
+        Pila pila = new Pila();
+
+        while (!aux.esVacia()) {
+            int i = 0;
+            int elemento;
+            while (i < t && !aux.esVacia()) {
+                elemento = (int) aux.obtenerFrente();
+                cola.poner(elemento);
+                pila.apilar(elemento);
+                aux.sacar();
+                i++;
+            }
+            while (!pila.esVacia()) {
+                lista.insertar(pila.obtenerTope(), lista.longitud()+1);
+                pila.desapilar();
+            }
+            while (!cola.esVacia()) {
+                lista.insertar(cola.obtenerFrente(), lista.longitud()+1);
+                cola.sacar();
+            }
+            if (!aux.esVacia()) {
+                lista.insertar('$', lista.longitud()+1);
             }
         }
         return lista;

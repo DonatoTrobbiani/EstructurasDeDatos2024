@@ -215,4 +215,25 @@ public class Lista {
         }
         return exito;
     }
+
+    public void agregarProducto(int x) {
+        if (x > 0) {
+            Nodo aux = this.cabecera;
+            Nodo prev = null;
+            while (aux != null) {
+                int producto = 1;
+                int contador = 1;
+                int elemento;
+                while (contador <= x && aux != null) {
+                    elemento = (int) aux.getElem();
+                    producto = elemento*producto;
+                    prev = aux;
+                    aux = aux.getEnlace();
+                    contador++;
+                }
+                Nodo nodoNuevo = new Nodo(producto, aux);
+                prev.setEnlace(nodoNuevo);
+            }
+        }
+    }
 }
