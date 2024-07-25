@@ -254,6 +254,10 @@ public class ArbolAVL {
         return elem;
     }
 
+    public void vaciar() {
+        this.raiz = null;
+    }
+
     public boolean esVacio() {
         return this.raiz == null;
     }

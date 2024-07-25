@@ -99,7 +99,7 @@ public class TestArbolBin {
         System.out.println("Intenta obtener los descendientes de K y comprueba si es vacia, espera TRUE: " + clon.obtenerDescendientes('K').esVacia());
         System.out.println("Intenta obtener los descendientes de 1000 y comprueba si es vacia, espera TRUE: " + clon.obtenerDescendientes(1000).esVacia());
 
-        System.out.println("Ingrea por insertarPorPosicion al arbol vacio L y espera TRUE: " + arbolBin.insertarPorPosicion('L', 1, 'I'));
+        System.out.println("Ingresa por insertarPorPosicion al arbol vacio L y espera TRUE: " + arbolBin.insertarPorPosicion('L', 1, 'I'));
         System.out.println(arbolBin.toString());
     }
 }

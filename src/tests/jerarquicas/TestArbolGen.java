@@ -50,7 +50,7 @@ public class TestArbolGen {
 
         System.out.println("Comprueba si el arbol esta vacio, espera FALSE: " + arbolGen.esVacio());
 
-        System.out.println("Retorna altura del arbol, espera 3: " + arbolGen.altura());
+        System.out.println("Retorna altura del arbol, espera 4: " + arbolGen.altura());
 
         System.out.println("Comprueba si \"Java\" pertenece al arbol, espera TRUE: " + arbolGen.pertenece("Java"));
         System.out.println("Comprueba si \"NADA\" pertenece al arbol, espera FALSE: " + arbolGen.pertenece("NADA"));

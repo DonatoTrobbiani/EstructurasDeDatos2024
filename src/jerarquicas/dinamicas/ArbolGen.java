@@ -51,15 +51,16 @@ public class ArbolGen {
     }
 
     public boolean insertarPorPosicion(Object elemNuevo, int posPadre) {
-        boolean exito = true;
-        if (posPadre == 1) {
-            if (this.raiz == null) {
-                this.raiz = new NodoGen(elemNuevo, null, null);
-            } else {
-                exito = false;
+        boolean exito = false;
+        if (posPadre > 0) {
+            if (posPadre == 1) {
+                if (this.raiz == null) {
+                    this.raiz = new NodoGen(elemNuevo, null, null);
+                    exito = true;
+                } 
+            }else {
+                exito = insertarPorPosicionAux(this.raiz, elemNuevo, posPadre);
             }
-        } else {
-            exito = insertarPorPosicionAux(this.raiz, elemNuevo, posPadre - 1);
         }
         return exito;
     }
@@ -67,18 +68,29 @@ public class ArbolGen {
     private boolean insertarPorPosicionAux(NodoGen nodo, Object elemNuevo, int posPadre) {
         boolean exito = false;
         if (nodo != null) {
-            NodoGen hijo = nodo.getHijoIzquierdo();
-            while (hijo != null && !exito) {
-                posPadre--;
-                if (posPadre == 0) {
-                    NodoGen nodoNuevo = new NodoGen(elemNuevo, null, null);
-                    nodoNuevo.setHermanoDerecho(hijo);
-                    nodo.setHijoIzquierdo(nodoNuevo);
+            if (posPadre == 1) {
+                NodoGen nuevo = new NodoGen(elemNuevo, null, null);
+                if (nodo.getHijoIzquierdo() == null) {
+                    nodo.setHijoIzquierdo(nuevo);
                     exito = true;
                 } else {
-                    exito = insertarPorPosicionAux(hijo, elemNuevo, posPadre);
+                    nodo = nodo.getHijoIzquierdo();
+                    while (nodo.getHermanoDerecho() != null) {
+                        nodo = nodo.getHermanoDerecho();
+                    }
+                    nodo.setHermanoDerecho(nuevo);
+                    exito = true;
                 }
-                hijo = hijo.getHermanoDerecho();
+            } else {
+                NodoGen hijo = nodo.getHijoIzquierdo();
+                posPadre--;
+                while (hijo != null && !exito) {
+                    exito = insertarPorPosicionAux(hijo, elemNuevo, posPadre);
+                    hijo = hijo.getHermanoDerecho();
+                    if (hijo != null) {
+                        posPadre--;
+                    }
+                }
             }
         }
         return exito;
@@ -281,11 +293,15 @@ public class ArbolGen {
         if (nodo != null) {
             clon = new NodoGen(nodo.getElem(), null, null);
             NodoGen hijo = nodo.getHijoIzquierdo();
-            NodoGen ultimoClon = clon;
+            if (hijo != null) {
+                clon.setHijoIzquierdo(cloneAux(hijo));
+            }
+            hijo = nodo.getHijoIzquierdo();
+            NodoGen aux = clon.getHijoIzquierdo();
             while (hijo != null) {
-                ultimoClon.setHijoIzquierdo(cloneAux(hijo));
-                ultimoClon = ultimoClon.getHijoIzquierdo();
+                aux.setHermanoDerecho(cloneAux(hijo));
                 hijo = hijo.getHermanoDerecho();
+                aux = aux.getHermanoDerecho();
             }
         }
         return clon;

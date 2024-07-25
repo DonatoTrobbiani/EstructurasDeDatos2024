@@ -68,7 +68,7 @@ public class ArbolBB {
         boolean exito = false;
         if (nodo != null) {
             if (elem.compareTo(nodo.getElem()) == 0) {
-                eliminarAuxNuevo(nodo, padre);
+                exito = eliminarAuxNuevo(nodo, padre);
             } else {
                 padre = nodo;
                 if (elem.compareTo(nodo.getElem()) < 0) {

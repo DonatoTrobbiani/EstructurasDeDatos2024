@@ -6,19 +6,25 @@ import lineales.dinamicas.Lista;
 
 public class TestGenerales {
     public static void main(String[] args) {
-        Lista lista = new Lista();
+        ArbolGen arbolGen = new ArbolGen();
 
-        lista.insertar(1, 1);
-        lista.insertar(2, 2);
-        lista.insertar(3, 3);
-        lista.insertar(4, 4);
-        lista.insertar(5, 5);
-        lista.insertar(6, 6);
-        lista.insertar(7, 7);
-        lista.insertar(8, 8);
+        arbolGen.insertar(1, "padre");
+        arbolGen.insertar(2, 1);
+        arbolGen.insertar(3, 1);
+        arbolGen.insertar(4, 1);
+        arbolGen.insertar(5, 2);
+        arbolGen.insertar(6, 2);
+        arbolGen.insertar(7, 2);
+        arbolGen.insertar(8, 3);
+        arbolGen.insertar(9, 3);
 
-        System.out.println(lista.toString());
-        lista.agregarProducto(3);
-        System.out.println(lista.toString());
+        System.out.println(arbolGen.toString());
+
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        arbolGen.clone();
+
+        System.out.println(arbolGen.toString());
     }
 }
