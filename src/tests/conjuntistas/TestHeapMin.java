@@ -9,7 +9,7 @@ public class TestHeapMin {
     public static void testingHeapMin() {
         System.out.println("TESTING HEAP MIN");
         HeapMin heapMin = new HeapMin();
-        System.out.println(heapMin.toString());
+        System.out.println(heapMin.toStringArbol());
 
         System.out.println("Inserta 1, espera TRUE: " + heapMin.insertar(1));
         System.out.println("Inserta 5, espera TRUE: " + heapMin.insertar(5));
@@ -19,27 +19,28 @@ public class TestHeapMin {
         System.out.println("Inserta 14, espera TRUE: " + heapMin.insertar(14));
         System.out.println("Inserta 19, espera TRUE: " + heapMin.insertar(19));
 
-        System.out.println(heapMin.toString());
+        System.out.println(heapMin.toStringArbol());
 
         System.out.println("Inserta 12, espera TRUE: " + heapMin.insertar(12));
         System.out.println("Inserta 3, espera TRUE: " + heapMin.insertar(3));
 
-        System.out.println(heapMin.toString());
+        System.out.println(heapMin.toStringArbol());
 
         System.out.println("Recupera cima, espera 1: " + heapMin.recuperarCima());
         System.out.println("Elimina cima, espera TRUE: " + heapMin.eliminarCima());
+        System.out.println(heapMin.toStringArbol());
         System.out.println("Recupera cima, espera 3: " + heapMin.recuperarCima());
         System.out.println("Elimina cima, espera TRUE: " + heapMin.eliminarCima());
+        System.out.println(heapMin.toStringArbol());
         System.out.println("Recupera cima, espera 5: " + heapMin.recuperarCima());
         System.out.println("Elimina cima, espera TRUE: " + heapMin.eliminarCima());
+        System.out.println(heapMin.toStringArbol());
         System.out.println("Recupera cima, espera 7: " + heapMin.recuperarCima());
-
-        System.out.println(heapMin.toString());
 
         System.out.println("Vacia el heap");
         heapMin = new HeapMin();
 
-        System.out.println(heapMin.toString());
+        System.out.println(heapMin.toStringArbol());
         
         System.out.println("Intenta elminar cima, espera FALSE: " + heapMin.eliminarCima());
         System.out.println("Intenta recuperar cima, espera NULL: " + heapMin.recuperarCima());
@@ -49,7 +50,7 @@ public class TestHeapMin {
             System.out.println("Inserta " + i + ", espera TRUE: " + heapMin.insertar(i));
         }
 
-        System.out.println(heapMin.toString());
+        System.out.println(heapMin.toStringArbol());
 
 
         System.out.println("Intenta insertar 30, espera FALSE por heap lleno: " + heapMin.insertar(30));

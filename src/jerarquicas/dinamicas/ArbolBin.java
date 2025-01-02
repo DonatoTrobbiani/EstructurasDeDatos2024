@@ -27,10 +27,10 @@ public class ArbolBin {
                 if (posHijo == 'I' && nodoPadre.getIzquierdo() == null) {
                     nodoPadre.setIzquierdo(new NodoArbol(elemNuevo, null, null));
                 } else if (posHijo == 'D' && nodoPadre.getDerecho() == null) {
-                        nodoPadre.setDerecho(new NodoArbol(elemNuevo, null, null));
-                    } else {
-                        exito = false;
-                    }
+                    nodoPadre.setDerecho(new NodoArbol(elemNuevo, null, null));
+                } else {
+                    exito = false;
+                }
             } else {
                 exito = false;
             }
@@ -238,13 +238,9 @@ public class ArbolBin {
     private Object padreAux(NodoArbol nodo, Object elem) {
         Object resultado = null;
         if (nodo != null) {
-            boolean encontrado = false;
             if (nodo.getIzquierdo() != null && nodo.getIzquierdo().getElem().equals(elem)) {
-                encontrado = true;
+                resultado = nodo.getElem();
             } else if (nodo.getDerecho() != null && nodo.getDerecho().getElem().equals(elem)) {
-                encontrado = true;
-            }
-            if (encontrado) {
                 resultado = nodo.getElem();
             } else {
                 resultado = padreAux(nodo.getIzquierdo(), elem);

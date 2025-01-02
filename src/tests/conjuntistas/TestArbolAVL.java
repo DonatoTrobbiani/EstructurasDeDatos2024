@@ -3,39 +3,68 @@ import conjuntistas.ArbolAVL;
 
 public class TestArbolAVL {
     public static void main(String[] args) {
-        testingArbolAVL();
+        //testingInsertarAVL();
+        testingEliminarAVL();
     }
 
-    public static void testingArbolAVL() {
-        System.out.println("TESTING ARBOL AVL");
-        ArbolAVL arbolAVL = new ArbolAVL();
-        System.out.println(arbolAVL.toString());
+    public static void testingInsertarAVL() {
+        ArbolAVL arbol = new ArbolAVL();
 
-        System.out.println("PROBANDO INSERTAR");
-        System.out.println("Inserta 10, espera TRUE: " + arbolAVL.insertar(10));
-        System.out.println("Inserta 5, espera TRUE: " + arbolAVL.insertar(5));
-        System.out.println("Inserta 15, espera TRUE: " + arbolAVL.insertar(15));
-        System.out.println("Inserta 3, espera TRUE: " + arbolAVL.insertar(3));
-        System.out.println("Inserta 7, espera TRUE: " + arbolAVL.insertar(7));
-        System.out.println("Inserta 13, espera TRUE: " + arbolAVL.insertar(13));
-        System.out.println("Inserta 17, espera TRUE: " + arbolAVL.insertar(17));
-        System.out.println("Inserta 2, espera TRUE: " + arbolAVL.insertar(2));
-        System.out.println("Inserta 4, espera TRUE: " + arbolAVL.insertar(4));
-        System.out.println("Inserta 6, espera TRUE: " + arbolAVL.insertar(6));
-        System.out.println("Inserta 8, espera TRUE: " + arbolAVL.insertar(8));
-        System.out.println("Inserta 12, espera TRUE: " + arbolAVL.insertar(12));
-        System.out.println("Inserta 14, espera TRUE: " + arbolAVL.insertar(14));
-        System.out.println("Inserta 16, espera TRUE: " + arbolAVL.insertar(16));
-        System.out.println("Inserta 18, espera TRUE: " + arbolAVL.insertar(18));
-        System.out.println("Inserta 1, espera TRUE: " + arbolAVL.insertar(1));
-        System.out.println("Inserta 9, espera TRUE: " + arbolAVL.insertar(9));
-        System.out.println("Inserta 11, espera TRUE: " + arbolAVL.insertar(11));
-        System.out.println("Inserta 19, espera TRUE: " + arbolAVL.insertar(19));
+        // Insert elements to cause right rotation
+        System.out.println("Prueba de rotación derecha");
+        arbol.insertar(30);
+        arbol.insertar(20);
+        System.out.println(arbol.toString());
+        arbol.insertar(10); // Right rotation should occur here
+        System.out.println(arbol.toString());
 
-        System.out.println(arbolAVL.toString());
+        // Insert elements to cause left rotation
+        System.out.println("Prueba de rotación izquierda");
+        arbol = new ArbolAVL();
+        arbol.insertar(10);
+        arbol.insertar(20);
+        System.out.println(arbol.toString());
+        arbol.insertar(30); // Left rotation should occur here
+        System.out.println(arbol.toString());
 
-        System.out.println("Inserta 20, tiene que hacer rotacion simple y 19 tiene que quedar como padre de 18 y 20, espera TRUE: " + arbolAVL.insertar(20));
+        // Insert elements to cause left-right rotation
+        System.out.println("Prueba de rotación izquierda-derecha");
+        arbol = new ArbolAVL();
+        arbol.insertar(30);
+        arbol.insertar(10);
+        System.out.println(arbol.toString());
+        arbol.insertar(20); // Left-right rotation should occur here
+        System.out.println(arbol.toString());
 
-        System.out.println(arbolAVL.toString());
+        // Insert elements to cause right-left rotation
+        System.out.println("Prueba de rotación derecha-izquierda");
+        arbol = new ArbolAVL();
+        arbol.insertar(10);
+        arbol.insertar(30);
+        System.out.println(arbol.toString());
+        arbol.insertar(20); // Right-left rotation should occur here
+        System.out.println(arbol.toString());
+    }
+
+    public static void testingEliminarAVL() {
+        ArbolAVL arbol = new ArbolAVL();
+
+        System.out.println("Probando el elminar");
+        arbol.insertar(75);
+        arbol.insertar(20);
+        arbol.insertar(15);
+        arbol.insertar(80);
+        arbol.insertar(93);
+        arbol.insertar(77);
+        arbol.insertar(18);
+        arbol.insertar(78);
+        arbol.insertar(13);
+        arbol.insertar(14);
+        arbol.insertar(25);
+        arbol.insertar(16);
+        System.out.println(arbol.toString());
+        System.out.println("Eliminando 93, se hace una rotacion doble izquierda-derecha en la rama derecha, y luego una rotacion a derecha en la rama izquierda");
+        System.out.println(arbol.eliminar(75));
+        System.out.println(arbol.toString());
     }
 }

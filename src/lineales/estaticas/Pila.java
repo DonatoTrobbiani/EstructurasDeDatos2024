@@ -46,12 +46,7 @@ public class Pila {
 
     //Comprueba si la pila está vacía
     public boolean esVacia() {
-        boolean exito = false;
-        //Corrobora si la pila está vacía
-        if (this.tope == -1) {
-            exito = true;
-        }
-        return exito;
+        return this.tope == -1;
     }
 
     //Vacia la pila
@@ -65,14 +60,8 @@ public class Pila {
     //Clona la pila
     public Pila clone() {
         Pila clon = new Pila();
-        Pila aux = new Pila();
-        //Se copian los elementos de la pila original a la auxiliar (en orden inverso)
         for (int i = 0; i <= this.tope; i++) {
-            aux.apilar(this.pila[i]);
-        }
-        //Se copian los elementos de la pila auxiliar a la clon (en orden original)
-        for (int i = 0; i <= aux.tope; i++) {
-            clon.apilar(aux.pila[i]);
+            clon.apilar(this.pila[i]);
         }
         return clon;
     }

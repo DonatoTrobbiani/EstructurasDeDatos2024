@@ -10,6 +10,7 @@ public class NodoAVL {
         this.elem = elem;
         this.izquierdo = izquierdo;
         this.derecho = derecho;
+        this.altura = 0;
     }
 
     public Comparable getElem() {

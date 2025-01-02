@@ -57,16 +57,16 @@ public class Pila {
 
     public Pila clone() {
         Pila clon = new Pila();
-        Pila aux = new Pila();
-        Nodo temp = this.tope;
-
-        while (temp != null) {
-            aux.apilar(temp.getElem());
-            temp = temp.getEnlace();
-        }
-        while (!aux.esVacia()) {
-            clon.apilar(aux.obtenerTope());
-            aux.desapilar();
+        Nodo aux = this.tope;
+        if (aux != null) {
+            clon.tope = new Nodo(aux.getElem(), null);
+            Nodo auxClon = clon.tope;
+            aux = aux.getEnlace();
+            while (aux != null) {
+                auxClon.setEnlace(new Nodo(aux.getElem(), null));
+                auxClon = auxClon.getEnlace();
+                aux = aux.getEnlace();
+            }
         }
         return clon;
     }
@@ -74,13 +74,12 @@ public class Pila {
     public String toString() {
         String cadena = "[ ";
         if (this.tope != null) {
-        Nodo aux = this.tope;    
-        while (aux != null) {
-            cadena += aux.getElem().toString() + " ";
-            aux = aux.getEnlace();
+            Nodo aux = this.tope;    
+            while (aux != null) {
+                cadena += aux.getElem().toString() + " ";
+                aux = aux.getEnlace();
             }
         }
-        cadena += "]";
-        return cadena;
+        return cadena += "]";
     }
 }

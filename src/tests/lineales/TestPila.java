@@ -1,5 +1,5 @@
 package tests.lineales;
-import lineales.estaticas.Pila;
+import lineales.dinamicas.Pila;
 
 public class TestPila {
     public static void main(String[] args) {
@@ -54,7 +54,7 @@ public class TestPila {
 
         System.out.println("Verifica pila copia, espera [1, 2, 3, 4, 5, 6, 7, 2]: " + pila2.toString());
         System.out.println("Apila 5, espera TRUE y [1, 2, 3, 4, 5, 6, 7, 2, 5]: " + pila2.apilar(5) + pila2.toString());
-        System.out.println("Apila 12, espera TRUE y [1, 2, 3, 4, 5, 6, 7, 2, 5, 12]: " + pila2.apilar(12));
+        System.out.println("Apila 12, espera TRUE y [1, 2, 3, 4, 5, 6, 7, 2, 5, 12]: " + pila2.apilar(12) + pila2.toString());
         System.out.println("Apila 17, espera TRUE en dinamica y FALSE en estatica: " + pila2.apilar(17));
 
         if((int) pila2.obtenerTope() == 17){
@@ -64,7 +64,7 @@ public class TestPila {
 
         System.out.println("Verifica pila copia, espera [1, 2, 3, 4, 5, 6, 7, 2, 5, 12]: " + pila2.toString());
         System.out.println("Desapila y espera TRUE:" + pila2.desapilar());
-        System.out.println("Desapila, espera TRUE y [1, 2, 3, 4, 5, 6, 7, 2]: " + pila2.desapilar());
+        System.out.println("Desapila, espera TRUE y [1, 2, 3, 4, 5, 6, 7, 2]: " + pila2.desapilar() + pila2.toString());
         System.out.println(pila.toString());
         pila2.vaciar();
         System.out.println("Vacia pila copia, espera pila vacia: " + pila2.toString());
@@ -104,9 +104,10 @@ public class TestPila {
         while (comprueba && !pilaAux.esVacia()) {
             if (!pilaAux.obtenerTope().equals(pilaAux2.obtenerTope())) {
                 comprueba = false;
+            } else {
+                pilaAux.desapilar();
+                pilaAux2.desapilar();
             }
-            pilaAux.desapilar();
-            pilaAux2.desapilar();
         }
         return comprueba;
     }

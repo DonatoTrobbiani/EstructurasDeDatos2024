@@ -65,7 +65,7 @@ public class HeapMin {
 
     private void hacerBajar(int posPadre) {
         int posHijo;
-        Comparable temp = this.heap[posPadre];
+        Comparable temp = this.heap[posPadre], aux;
         boolean salir = false;
 
         while (!salir) {
@@ -85,7 +85,9 @@ public class HeapMin {
                 //compara al hijo menor con el padre
                 if (this.heap[posHijo].compareTo(temp) < 0) {
                     //el hijo es menor que el padre, los intercambia
+                    aux = this.heap[posPadre];
                     this.heap[posPadre] = this.heap[posHijo];
+                    this.heap[posHijo] = aux;
                     posPadre = posHijo;
                 } else {
                     //el padre es menor que sus hijos, esta en su lugar
@@ -102,12 +104,22 @@ public class HeapMin {
         return this.heap[1];
     }
 
-    public String toString() {
+    public String toStringArreglo() {
         String s = "[ ";
         for (int i = 1; i <= this.ultimo; i++) {
             s += this.heap[i] + " ";
         }
         s += "]";
+        return s;
+    }
+
+    public String toStringArbol() {
+        String s = "";
+        for (int i = 1; i <= this.ultimo; i++) {
+            s += "Nodo: " + this.heap[i];
+            s += " HI: " + (2*i <= this.ultimo ? this.heap[2*i] : "-");
+            s += " HD: " + (2*i+1 <= this.ultimo ? this.heap[2*i+1] : "-") + "\n";
+        }
         return s;
     }
 }

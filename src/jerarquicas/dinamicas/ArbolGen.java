@@ -51,49 +51,45 @@ public class ArbolGen {
     }
 
     public boolean insertarPorPosicion(Object elemNuevo, int posPadre) {
-        boolean exito = false;
-        if (posPadre > 0) {
-            if (posPadre == 1) {
-                if (this.raiz == null) {
-                    this.raiz = new NodoGen(elemNuevo, null, null);
-                    exito = true;
-                } 
-            }else {
-                exito = insertarPorPosicionAux(this.raiz, elemNuevo, posPadre);
+        boolean exito = true;
+        if (this.raiz == null) {
+            this.raiz = new NodoGen(elemNuevo, null, null);
+        } else {
+            //Si el arbol no está vacío, busca el padre
+            int[] posPadreAux = {posPadre-1};
+            NodoGen nodoPadre = obtenerPosicion(this.raiz, posPadreAux);
+            if (nodoPadre != null) {
+                NodoGen nuevo = new NodoGen(elemNuevo, null, null);
+                if (nodoPadre.getHijoIzquierdo() == null) {
+                    nodoPadre.setHijoIzquierdo(nuevo);
+                } else {
+                    NodoGen hijo = nodoPadre.getHijoIzquierdo();
+                    while (hijo.getHermanoDerecho() != null) {
+                        hijo = hijo.getHermanoDerecho();
+                    }
+                    hijo.setHermanoDerecho(nuevo);
+                }
+            } else {
+                exito = false;
             }
         }
         return exito;
     }
 
-    private boolean insertarPorPosicionAux(NodoGen nodo, Object elemNuevo, int posPadre) {
-        boolean exito = false;
+    private NodoGen obtenerPosicion(NodoGen nodo, int[] pos) {
+        NodoGen resultado = null;
         if (nodo != null) {
-            if (posPadre == 1) {
-                NodoGen nuevo = new NodoGen(elemNuevo, null, null);
-                if (nodo.getHijoIzquierdo() == null) {
-                    nodo.setHijoIzquierdo(nuevo);
-                    exito = true;
-                } else {
-                    nodo = nodo.getHijoIzquierdo();
-                    while (nodo.getHermanoDerecho() != null) {
-                        nodo = nodo.getHermanoDerecho();
-                    }
-                    nodo.setHermanoDerecho(nuevo);
-                    exito = true;
-                }
+            if (pos[0] == 0) {
+                resultado = nodo;
             } else {
-                NodoGen hijo = nodo.getHijoIzquierdo();
-                posPadre--;
-                while (hijo != null && !exito) {
-                    exito = insertarPorPosicionAux(hijo, elemNuevo, posPadre);
-                    hijo = hijo.getHermanoDerecho();
-                    if (hijo != null) {
-                        posPadre--;
-                    }
+                pos[0]--;
+                resultado = obtenerPosicion(nodo.getHijoIzquierdo(), pos);
+                if (resultado == null) {
+                    resultado = obtenerPosicion(nodo.getHermanoDerecho(), pos);
                 }
             }
         }
-        return exito;
+        return resultado;
     }
 
     public boolean pertenece(Object elem) {
@@ -233,7 +229,7 @@ public class ArbolGen {
             lista.insertar(nodo.getElem(), lista.longitud() + 1);
 
             //Llamado recursivo a los otros hijos de nodo
-            if (nodo.getHijoIzquierdo() != null) {
+            if (hijo != null) {
                 hijo = nodo.getHijoIzquierdo().getHermanoDerecho();
                 while (hijo != null) {
                     listarInordenAux(hijo, lista);
@@ -266,13 +262,14 @@ public class ArbolGen {
     public Lista listarPorNiveles() {
         Lista lista = new Lista();
         Cola q = new Cola();
+        NodoGen hijo, nodo;
         if (this.raiz != null) {
             q.poner(this.raiz);
             while (!q.esVacia()) {
-                NodoGen nodo = (NodoGen) q.obtenerFrente();
+                nodo = (NodoGen) q.obtenerFrente();
                 q.sacar();
                 lista.insertar(nodo.getElem(), lista.longitud() + 1);
-                NodoGen hijo = nodo.getHijoIzquierdo();
+                hijo = nodo.getHijoIzquierdo();
                 while (hijo != null) {
                     q.poner(hijo);
                     hijo = hijo.getHermanoDerecho();
@@ -296,13 +293,7 @@ public class ArbolGen {
             if (hijo != null) {
                 clon.setHijoIzquierdo(cloneAux(hijo));
             }
-            hijo = nodo.getHijoIzquierdo();
-            NodoGen aux = clon.getHijoIzquierdo();
-            while (hijo != null) {
-                aux.setHermanoDerecho(cloneAux(hijo));
-                hijo = hijo.getHermanoDerecho();
-                aux = aux.getHermanoDerecho();
-            }
+            clon.setHermanoDerecho(cloneAux(nodo.getHermanoDerecho()));
         }
         return clon;
     }

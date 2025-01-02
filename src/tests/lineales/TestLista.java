@@ -36,7 +36,7 @@ public class TestLista {
         System.out.println("Elimina pos 1, espera TRUE y [1, 2, 1, 3, 4, 5]: " + lista.eliminar(1) + lista.toString());
         System.out.println("Elimina pos 5, espera TRUE y [1, 2, 1, 3, 5]: " + lista.eliminar(5) + lista.toString());
         System.out.println("Elimina pos 0, espera FALSE y [1, 2, 1, 3, 5]: " + lista.eliminar(0) + lista.toString());
-        System.out.println("Elimina pos 5, espera FALSE y [1, 2, 1, 3, 5]: " + lista.eliminar(5) + lista.toString());
+        System.out.println("Elimina pos 6, espera FALSE y [1, 2, 1, 3, 5]: " + lista.eliminar(6) + lista.toString());
 
         lista.vaciar();
         System.out.println("Vacía lista, espera lista vacía: "+ lista.toString());

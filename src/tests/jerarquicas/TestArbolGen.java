@@ -4,7 +4,7 @@ import lineales.dinamicas.Lista;
 
 public class TestArbolGen {
     public static void main(String[] args) {
-        testingArbolGen();
+        testCortoArbolGen();
     }
 
     public static void testingArbolGen() {
@@ -97,5 +97,40 @@ public class TestArbolGen {
         System.out.println("Lista el arbol clonado por niveles");
         Lista porNiveles = clon.listarPorNiveles();
         System.out.println(porNiveles.toString());
+    }
+
+    public static void testCortoArbolGen() {
+        System.out.println("TESTING ARBOL GENÉRICO CORTO");
+        ArbolGen arbolGen = new ArbolGen();
+
+        // Test inserting elements
+        System.out.println("Inserta raiz \"A\": " + arbolGen.insertar("A", 1));
+        System.out.println("Inserta \"B\" como hijo de \"A\": " + arbolGen.insertar("B", "A"));
+        System.out.println("Inserta \"C\" como hijo de \"A\": " + arbolGen.insertar("C", "A"));
+        System.out.println("Inserta \"D\" como hijo de \"B\": " + arbolGen.insertarPorPosicion("D", 2));
+        System.out.println("Inserta \"E\" como hijo de \"B\": " + arbolGen.insertarPorPosicion("E", 2));
+        System.out.println("Inserta \"F\" como hijo de \"C\": " + arbolGen.insertarPorPosicion("F", 5));
+        System.out.println("Inserta \"G\" como hijo de \"C\": " + arbolGen.insertarPorPosicion("G", 5));
+        System.out.println(arbolGen.toString());
+
+        // Test tree structure
+        System.out.println("Arbol en preorden: \n" + arbolGen.listarPreorden().toString());
+        System.out.println("Arbol en inorden: \n" + arbolGen.listarInorden().toString());
+        System.out.println("Arbol en posorden: \n" + arbolGen.listarPosorden().toString());
+        System.out.println("Arbol por niveles: \n" + arbolGen.listarPorNiveles().toString());
+
+        // Test other methods
+        System.out.println("Altura del arbol: " + arbolGen.altura());
+        System.out.println("Nivel del nodo \"E\": " + arbolGen.nivel("E"));
+        System.out.println("Padre del nodo \"E\": " + arbolGen.padre("E"));
+        System.out.println("Padre del nodo \"A\": " + arbolGen.padre("A"));
+
+        // Test cloning
+        ArbolGen clon = arbolGen.clone();
+        System.out.println("Arbol clonado:\n" + clon.toString());
+
+        // Test emptying the tree
+        arbolGen.vaciar();
+        System.out.println("Arbol vaciado, espera true: " + arbolGen.esVacio());
     }
 }

@@ -1,5 +1,6 @@
 package conjuntistas;
 
+import jerarquicas.dinamicas.NodoArbol;
 import lineales.dinamicas.Lista;
 
 public class ArbolBB {
@@ -31,29 +32,31 @@ public class ArbolBB {
     }
 
     public boolean insertar(Comparable elem) {
-        return insertarAux(this.raiz, elem);
+        boolean exito = true;
+        if (this.raiz == null) {
+            this.raiz = new NodoABB(elem, null, null);
+        } else {
+            exito = insertarAux(this.raiz, elem);
+        }
+        return exito;
     }
 
     private boolean insertarAux(NodoABB nodo, Comparable elem) {
-        boolean exito = true;
-        if (nodo == null) {
-            this.raiz = new NodoABB(elem, null, null);
+        boolean exito = true;        
+        if (elem.compareTo(nodo.getElem()) == 0) {
+            exito = false;
         } else {
-            if (elem.compareTo(nodo.getElem()) == 0) {
-                exito = false;
-            } else {
-                if (elem.compareTo(nodo.getElem()) < 0) {
-                    if (nodo.getIzquierdo() == null) {
-                        nodo.setIzquierdo(new NodoABB(elem, null, null));
-                    } else {
-                        exito = insertarAux(nodo.getIzquierdo(), elem);
-                    }
+            if (elem.compareTo(nodo.getElem()) < 0) {
+                if (nodo.getIzquierdo() == null) {
+                    nodo.setIzquierdo(new NodoABB(elem, null, null));
                 } else {
-                    if (nodo.getDerecho() == null) {
-                        nodo.setDerecho(new NodoABB(elem, null, null));
-                    } else {
-                        exito = insertarAux(nodo.getDerecho(), elem);
-                    }
+                    exito = insertarAux(nodo.getIzquierdo(), elem);
+                }
+            } else {
+                if (nodo.getDerecho() == null) {
+                    nodo.setDerecho(new NodoABB(elem, null, null));
+                } else {
+                    exito = insertarAux(nodo.getDerecho(), elem);
                 }
             }
         }
@@ -82,7 +85,6 @@ public class ArbolBB {
     }
 
     private boolean eliminarAuxNuevo(NodoABB nodo, NodoABB padre) {
-        boolean exito = false;
         NodoABB HI = nodo.getIzquierdo();
         NodoABB HD = nodo.getDerecho();
 
@@ -97,7 +99,6 @@ public class ArbolBB {
                     padre.setDerecho(null);
                 }
             }
-            exito = true;
         } 
         
         //Segundo caso: el nodo tiene un solo hijo
@@ -123,7 +124,6 @@ public class ArbolBB {
                     }
                 }
             }
-            exito = true;
         }
 
         //Tercer caso: el nodo tiene dos hijos
@@ -141,10 +141,9 @@ public class ArbolBB {
             } else {
                 padreReemplazo.setIzquierdo(reemplazo.getDerecho());
             }
-            exito = true;
         }
         
-        return exito;
+        return true;
     }
 
     public Lista listar() {
@@ -186,13 +185,7 @@ public class ArbolBB {
     }
 
     private Comparable minimoElemAux(NodoABB nodo) {
-        Comparable elem;
-        if(nodo.getIzquierdo() == null) {
-            elem = nodo.getElem();
-        } else {
-            return minimoElemAux(nodo.getIzquierdo());
-        }
-        return elem;
+        return nodo.getIzquierdo() == null ? nodo.getElem() : minimoElemAux(nodo.getIzquierdo());
     }
 
     public Comparable maximoElem() {
@@ -200,13 +193,11 @@ public class ArbolBB {
     }
 
     private Comparable maximoElemAux(NodoABB nodo) {
-        Comparable elem;
-        if(nodo.getDerecho() == null) {
-            elem = nodo.getElem();
-        } else {
-            return maximoElemAux(nodo.getDerecho());
-        }
-        return elem;
+        return nodo.getDerecho() == null ? nodo.getElem() : maximoElemAux(nodo.getDerecho());
+    }
+
+    public void vaciar() {
+        this.raiz = null;
     }
 
     public boolean esVacio() {
@@ -218,15 +209,16 @@ public class ArbolBB {
     }
 
     private String toStringAux(NodoABB nodo) {
-        String str = "";
+        String resultado = "";
         if (nodo != null) {
-            str += "Nodo: " + nodo.getElem() + "\n";
-            str += "HI de " + nodo.getElem() + ": " + (nodo.getIzquierdo() == null ? "null" : nodo.getIzquierdo().getElem()) + "\n";
-            str += "HD de " + nodo.getElem() + ": " + (nodo.getDerecho() == null ? "null" : nodo.getDerecho().getElem()) + "\n";
-            str += toStringAux(nodo.getIzquierdo());
-            str += toStringAux(nodo.getDerecho());
+            resultado += "Nodo: " + nodo.getElem();
+            resultado += " HI: " + (nodo.getIzquierdo() != null ? nodo.getIzquierdo().getElem() : "-");
+            resultado += " HD: " + (nodo.getDerecho() != null ? nodo.getDerecho().getElem() : "-");
+            resultado += "\n";
+            resultado += toStringAux(nodo.getIzquierdo());
+            resultado += toStringAux(nodo.getDerecho());
         }
-        return str;
+        return resultado;
     }
 
     public void elminarMinimo() {
@@ -234,7 +226,7 @@ public class ArbolBB {
             if(this.raiz.getIzquierdo() == null) {
                 this.raiz = this.raiz.getDerecho();
             } else {
-                eliminarMinimoAux(this.raiz, null);
+                eliminarMinimoAux(this.raiz.getIzquierdo(), this.raiz);
             }
         }
     }

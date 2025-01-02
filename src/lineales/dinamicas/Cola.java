@@ -51,12 +51,17 @@ public class Cola {
 
     public Cola clone() {
         Cola clon = new Cola();
-        if (this.frente != null) {
-            Nodo aux = this.frente;
+        Nodo aux = this.frente;
+        if (aux != null) {
+            clon.frente = new Nodo(aux.getElem(), null);
+            aux = aux.getEnlace();
+            Nodo auxClon = clon.frente;
             while (aux != null) {
-                clon.poner(aux.getElem());
+                auxClon.setEnlace(new Nodo(aux.getElem(), null));
                 aux = aux.getEnlace();
+                auxClon = auxClon.getEnlace();
             }
+            clon.fin = auxClon;
         }
         return clon;
     }
